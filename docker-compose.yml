@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  tylt-client-dev:
+    build:
+      context: .
+      target: dev
+    container_name: tylt-client-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - PUBLIC_BASE_URL=http://localhost:3000
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    command: npm run dev
+    profiles: ["dev"]
+
+  tylt-client-prod:
+    build:
+      context: .
+      target: prod
+    container_name: tylt-client-prod
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - PUBLIC_BASE_URL=http://localhost:3000
+    command: npm start
+    profiles: ["prod"]

@@ -1,0 +1,14 @@
+{
+  "name": "tylt-feedback-client",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Frontend project for the TYLT feedback form",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}

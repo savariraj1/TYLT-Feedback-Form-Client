@@ -1,0 +1,141 @@
+body{
+margin:0;
+background:#f4f7fc;
+font-family:Segoe UI,sans-serif;
+}
+
+.sidebar{
+position:fixed;
+width:250px;
+height:100vh;
+background:#0b3b7a;
+color:white;
+padding-top:20px;
+}
+
+.logo{
+text-align:center;
+margin-bottom:40px;
+}
+
+.sidebar ul{
+list-style:none;
+padding:0;
+}
+
+.sidebar li{
+padding:16px 25px;
+cursor:pointer;
+transition:.3s;
+}
+
+.sidebar li:hover,
+.sidebar .active{
+background:#1565c0;
+}
+
+.sidebar i{
+margin-right:12px;
+}
+
+.main{
+margin-left:250px;
+padding:30px;
+}
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:30px;
+}
+
+.admin{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.avatar{
+width:40px;
+height:40px;
+border-radius:50%;
+}
+
+.card-box{
+padding:25px;
+border:none;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+transition:.3s;
+}
+
+.card-box:hover{
+transform:translateY(-5px);
+}
+
+.card{
+border:none;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+@media(max-width:991px){
+
+.sidebar{
+width:80px;
+}
+
+.sidebar li{
+font-size:0;
+}
+
+.sidebar i{
+font-size:22px;
+margin:0;
+}
+
+.logo h3{
+font-size:20px;
+}
+
+.main{
+margin-left:80px;
+}
+
+}
+
+@media(max-width:768px){
+
+.sidebar{
+position:relative;
+width:100%;
+height:auto;
+}
+
+.main{
+margin-left:0;
+}
+
+.topbar{
+flex-direction:column;
+align-items:flex-start;
+gap: 10px;
+}
+
+}
+
+.sidebar li{
+    cursor:pointer;
+    padding:15px 20px;
+    transition:.3s;
+}
+
+.sidebar li.active{
+    background:#2b6cb0;
+    color:#fff;
+}
+
+.sidebar li:hover{
+    background:#2b6cb0;
+}
