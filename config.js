@@ -1,7 +1,7 @@
 (function () {
     const API_URLS = {
         local: "http://localhost:5000",
-        prod: "https://tylt-feedback-form-server.railway.internal"
+        prod: "tylt-feedback-form-server-production.up.railway.app"
     };
 
     // Change only this flag: true = prod API, false = local API
