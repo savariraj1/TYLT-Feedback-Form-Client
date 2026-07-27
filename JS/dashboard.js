@@ -4,6 +4,10 @@ if(sessionStorage.getItem("loggedIn") !== "true"){
 
 }
 
+const APP_CONFIG = window.APP_CONFIG || {};
+const API_BASE_URL = APP_CONFIG.API_BASE_URL || "http://localhost:5000";
+const APP_BASE_URL = APP_CONFIG.APP_BASE_URL || window.location.origin;
+
 let feedbackChart = null;
 let ratingChart = null;
 let companyChart = null;
@@ -14,7 +18,7 @@ async function loadDashboard() {
 
     try {
 
-        const response = await fetch("http://localhost:5000/api/dashboard");
+        const response = await fetch(`${API_BASE_URL}/api/dashboard`);
         const data = await response.json();
         console.table(data.recent);
 
@@ -38,7 +42,7 @@ async function loadDashboard() {
                     ${item.overall_rating || "Pending"}
                 </td>
                 <td>
-                    <button class="btn btn-primary btn-sm copyLinkBtn" data-link="http://127.0.0.1:5500/client/feedbackform.html?feedback=${item.feedback_id}">
+                    <button class="btn btn-primary btn-sm copyLinkBtn" data-link="${APP_BASE_URL}/feedbackform.html?feedback=${item.feedback_id}">
                         Link
                     </button>
                 </td>
@@ -89,7 +93,7 @@ document.addEventListener("click", function (e) {
     const feedbackId = btn.dataset.id;
 
     window.open(
-        `http://localhost:5000/api/export/feedback/${feedbackId}`,
+        `${API_BASE_URL}/api/export/feedback/${feedbackId}`,
         "_blank"
     );
 
@@ -179,7 +183,7 @@ async function loadCharts() {
         const rating = document.getElementById("dashboardRatingFilter").value;
 
         const response = await fetch(
-        `http://localhost:5000/api/analytics?search=${encodeURIComponent(search)}&from=${from}&to=${to}&rating=${rating}`
+        `${API_BASE_URL}/api/analytics?search=${encodeURIComponent(search)}&from=${from}&to=${to}&rating=${rating}`
         );
         // const response = await fetch("http://localhost:5000/api/analytics");
         const data = await response.json();
@@ -349,11 +353,11 @@ document.getElementById("toDate").addEventListener("change", filterTable);
 
 // ================= Export Buttons =================
 document.getElementById("pdfBtn").addEventListener("click", () => {
-    window.open("http://localhost:5000/api/export/pdf");
+    window.open(`${API_BASE_URL}/api/export/pdf`);
 });
 
 document.getElementById("excelBtn").addEventListener("click", () => {
-    window.open("http://localhost:5000/api/export/excel");
+    window.open(`${API_BASE_URL}/api/export/excel`);
 });
 
 
@@ -400,7 +404,7 @@ if (generateBtn) {
 
         response = await fetch(
 
-            `http://localhost:5000/api/feedback/edit-detail/${feedbackId}`,
+            `${API_BASE_URL}/api/feedback/edit-detail/${feedbackId}`,
 
             {
 
@@ -424,7 +428,7 @@ if (generateBtn) {
 
         response = await fetch(
 
-            "http://localhost:5000/api/generate-link",
+            `${API_BASE_URL}/api/generate-link`,
 
             {
 
@@ -536,7 +540,7 @@ document.addEventListener("click", async function (e) {
     try {
 
         const response = await fetch(
-            `http://localhost:5000/api/feedback/${feedbackId}`
+            `${API_BASE_URL}/api/feedback/${feedbackId}`
         );
 
         const result = await response.json();
@@ -693,7 +697,7 @@ document.addEventListener("click", function (e) {
     const feedbackId = btn.dataset.id;
 
     window.open(
-        `http://localhost:5000/api/export/feedback/${feedbackId}`,
+        `${API_BASE_URL}/api/export/feedback/${feedbackId}`,
         "_blank"
     );
 
@@ -709,7 +713,7 @@ document.addEventListener("click", async function (e) {
     try {
 
         const response = await fetch(
-            `http://localhost:5000/api/feedback/${id}`
+            `${API_BASE_URL}/api/feedback/${id}`
         );
 
         const result = await response.json();

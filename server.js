@@ -1,10 +1,15 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+require("dotenv").config();
 
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = process.env.HOST || "0.0.0.0";
-const isProd = String(process.env.PROD).toLowerCase() === "true";
+const isProd = ["true", "1", "yes"].includes(
+    String(process.env.PROD || "")
+        .trim()
+        .toLowerCase()
+);
 const API_BASE_URL = isProd
     ? process.env.PROD_API_BASE_URL || process.env.API_BASE_URL || "http://localhost:5000"
     : process.env.API_BASE_URL || "http://localhost:5000";
