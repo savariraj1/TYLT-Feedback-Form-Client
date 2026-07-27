@@ -101,8 +101,17 @@ function requestHandler(request, response) {
         return;
     }
 
+    // ===== DEBUG =====
+    console.log("rootDir:", rootDir);
+    console.log("requestPath:", requestPath);
+    console.log("filePath:", filePath);
+    console.log("exists:", fs.existsSync(filePath));
+    console.log("Files:", fs.readdirSync(rootDir));
+    // =================
+
     fs.stat(filePath, (error, stats) => {
         if (error) {
+            console.log("fs.stat error:", error);
             send(response, 404, "File not found", "text/plain; charset=utf-8");
             return;
         }
