@@ -1,19 +1,22 @@
-document.getElementById("loginForm").addEventListener("submit", function(e){
+document.getElementById("loginForm").addEventListener("submit", function (e) {
 
-e.preventDefault();
+    e.preventDefault();
 
-const username=document.getElementById("username").value;
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-const password=document.getElementById("password").value;
+    if (username === "admin" && password === "tyltadmin") {
 
-if(username==="admin" && password==="tyltadmin"){
+        // Save login
+        sessionStorage.setItem("loggedIn", "true");
 
-window.location.href="dashboard.html";
+        // Go to dashboard
+        window.location.href = "index.html";
 
-}else{
+    } else {
 
-alert("Invalid Username or Password");
+        alert("Invalid Username or Password");
 
-}
+    }
 
 });

@@ -4,8 +4,15 @@ const path = require("path");
 
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = process.env.HOST || "0.0.0.0";
-const PUBLIC_BASE_URL =
-    process.env.PUBLIC_BASE_URL || `http://localhost:${PORT}`;
+const isProd = String(process.env.PROD).toLowerCase() === "true";
+const API_BASE_URL = isProd
+    ? process.env.PROD_API_BASE_URL || process.env.API_BASE_URL || "http://localhost:5000"
+    : process.env.API_BASE_URL || "http://localhost:5000";
+const PUBLIC_BASE_URL = isProd
+    ? process.env.PROD_PUBLIC_BASE_URL ||
+      process.env.PUBLIC_BASE_URL ||
+      `http://localhost:${PORT}`
+    : process.env.PUBLIC_BASE_URL || `http://localhost:${PORT}`;
 
 const rootDir = __dirname;
 
@@ -68,6 +75,20 @@ function getFilePath(requestPath) {
 const server = http.createServer((request, response) => {
     const requestPath = request.url || "/";
 
+    if (requestPath === "/config.js") {
+        const body = `window.APP_CONFIG = ${JSON.stringify(
+            {
+                API_BASE_URL,
+                APP_BASE_URL: PUBLIC_BASE_URL
+            },
+            null,
+            2
+        )};`;
+
+        send(response, 200, body, "application/javascript; charset=utf-8");
+        return;
+    }
+
     const filePath = getFilePath(requestPath);
 
     if (!filePath) {
@@ -92,4 +113,6 @@ const server = http.createServer((request, response) => {
 
 server.listen(PORT, HOST, () => {
     console.log(`Frontend running on ${PUBLIC_BASE_URL}`);
+    console.log(`Backend API configured as ${API_BASE_URL}`);
+    console.log(`Production mode: ${isProd}`);
 });

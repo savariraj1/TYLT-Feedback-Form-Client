@@ -1,6 +1,3 @@
-const API_BASE_URL =
-    window.APP_CONFIG?.API_BASE_URL || "http://localhost:5000";
-
 document.addEventListener("DOMContentLoaded", () => {
 
     const params = new URLSearchParams(window.location.search);
@@ -40,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         try {
 
-            const response = await fetch(`${API_BASE_URL}/api/feedback`, {
+            const response = await fetch("http://localhost:5000/api/feedback", {
 
                 method: "POST",
 
@@ -105,7 +102,7 @@ async function loadTripDetails() {
     }
 
     const response = await fetch(
-        `${API_BASE_URL}/api/feedback/${feedbackId}`
+        `http://localhost:5000/api/feedback/${feedbackId}`
     );
 
     const result = await response.json();

@@ -1,18 +1,20 @@
+if(sessionStorage.getItem("loggedIn") !== "true"){
+
+    window.location.replace("login.html");
+
+}
+
 let feedbackChart = null;
 let ratingChart = null;
 let companyChart = null;
 let driverChart = null;
-const API_BASE_URL =
-    window.APP_CONFIG?.API_BASE_URL || "http://localhost:5000";
-const APP_BASE_URL =
-    window.APP_CONFIG?.APP_BASE_URL || window.location.origin;
 
 // ================= Dashboard =================
 async function loadDashboard() {
 
     try {
 
-        const response = await fetch(`${API_BASE_URL}/api/dashboard`);
+        const response = await fetch("http://localhost:5000/api/dashboard");
         const data = await response.json();
         console.table(data.recent);
 
@@ -36,7 +38,7 @@ async function loadDashboard() {
                     ${item.overall_rating || "Pending"}
                 </td>
                 <td>
-                    <button class="btn btn-primary btn-sm copyLinkBtn" data-link="${APP_BASE_URL}/?feedback=${item.feedback_id}">
+                    <button class="btn btn-primary btn-sm copyLinkBtn" data-link="http://127.0.0.1:5500/client/feedbackform.html?feedback=${item.feedback_id}">
                         Link
                     </button>
                 </td>
@@ -87,7 +89,7 @@ document.addEventListener("click", function (e) {
     const feedbackId = btn.dataset.id;
 
     window.open(
-        `${API_BASE_URL}/api/export/feedback/${feedbackId}`,
+        `http://localhost:5000/api/export/feedback/${feedbackId}`,
         "_blank"
     );
 
@@ -140,11 +142,46 @@ function filterTable() {
 
 }
 // ================= Charts =================
+
+document.getElementById("dashboardSearch")
+.addEventListener("keyup", loadCharts);
+
+document.getElementById("dashboardFromDate")
+.addEventListener("change", loadCharts);
+
+document.getElementById("dashboardToDate")
+.addEventListener("change", loadCharts);
+
+document.getElementById("dashboardRatingFilter")
+.addEventListener("change", loadCharts);
+
+document.getElementById("dashboardRefreshBtn")
+.addEventListener("click", loadCharts);
+
+document.getElementById("dashboardClearBtn")
+.addEventListener("click", () => {
+
+    document.getElementById("dashboardSearch").value = "";
+    document.getElementById("dashboardFromDate").value = "";
+    document.getElementById("dashboardToDate").value = "";
+    document.getElementById("dashboardRatingFilter").value = "";
+
+    loadCharts();
+
+});
 async function loadCharts() {
 
     try {
 
-        const response = await fetch(`${API_BASE_URL}/api/analytics`);
+        const search = document.getElementById("dashboardSearch").value;
+        const from = document.getElementById("dashboardFromDate").value;
+        const to = document.getElementById("dashboardToDate").value;
+        const rating = document.getElementById("dashboardRatingFilter").value;
+
+        const response = await fetch(
+        `http://localhost:5000/api/analytics?search=${encodeURIComponent(search)}&from=${from}&to=${to}&rating=${rating}`
+        );
+        // const response = await fetch("http://localhost:5000/api/analytics");
         const data = await response.json();
 
         // Destroy existing charts
@@ -171,16 +208,83 @@ async function loadCharts() {
         );
 
         // Rating Chart
+        // Remove null/empty ratings
+       const ratingData = data.ratings.filter(item => item.overall_rating);
+
+        const labels = ratingData.map(item => {
+
+            const rating = item.overall_rating || "";
+
+            if (rating.includes("Excellent")) return "Excellent";
+            if (rating.includes("Good")) return "Good";
+            if (rating.includes("Average")) return "Average";
+            if (rating.includes("Fair")) return "Fair";
+            if (rating.includes("Poor")) return "Poor";
+
+            return rating;
+
+        });
+
+        const values = ratingData.map(x => x.total);
+
+        const colors = {
+            "Excellent":"#28a745",
+            "Good":"#0d6efd",
+            "Average":"#ffc107",
+            "Fair":"#fd7e14",
+            "Poor":"#dc3545"
+        };
+
         ratingChart = new Chart(
             document.getElementById("ratingChart"),
             {
-                type: "doughnut",
-                data: {
-                    labels: data.ratings.map(x => x.overall_rating + " Star"),
-                    datasets: [{
-                        data: data.ratings.map(x => x.total)
+                type:"doughnut",
+
+                data:{
+
+                    labels:labels,
+
+                    datasets:[{
+
+                        data:values,
+
+                        backgroundColor:labels.map(x=>colors[x]),
+
+                        borderColor:"#ffffff",
+
+                        borderWidth:3
+
                     }]
+
+                },
+
+                options:{
+
+                    cutout:"55%",
+
+                    plugins:{
+
+                        legend:{
+
+                            position:"top",
+
+                            labels:{
+
+                                boxWidth:20,
+                                padding:15,
+                                font:{
+                                    size:14,
+                                    weight:"bold"
+                                }
+
+                            }
+
+                        }
+
+                    }
+
                 }
+
             }
         );
 
@@ -245,11 +349,11 @@ document.getElementById("toDate").addEventListener("change", filterTable);
 
 // ================= Export Buttons =================
 document.getElementById("pdfBtn").addEventListener("click", () => {
-    window.open(`${API_BASE_URL}/api/export/pdf`);
+    window.open("http://localhost:5000/api/export/pdf");
 });
 
 document.getElementById("excelBtn").addEventListener("click", () => {
-    window.open(`${API_BASE_URL}/api/export/excel`);
+    window.open("http://localhost:5000/api/export/excel");
 });
 
 
@@ -296,7 +400,7 @@ if (generateBtn) {
 
         response = await fetch(
 
-            `${API_BASE_URL}/api/feedback/edit-detail/${feedbackId}`,
+            `http://localhost:5000/api/feedback/edit-detail/${feedbackId}`,
 
             {
 
@@ -320,7 +424,7 @@ if (generateBtn) {
 
         response = await fetch(
 
-            `${API_BASE_URL}/api/generate-link`,
+            "http://localhost:5000/api/generate-link",
 
             {
 
@@ -432,7 +536,7 @@ document.addEventListener("click", async function (e) {
     try {
 
         const response = await fetch(
-            `${API_BASE_URL}/api/feedback/${feedbackId}`
+            `http://localhost:5000/api/feedback/${feedbackId}`
         );
 
         const result = await response.json();
@@ -564,6 +668,22 @@ document.addEventListener("click", async function (e) {
 
 // });
 
+document.getElementById("logoutBtn").addEventListener("click",function(){
+
+    sessionStorage.removeItem("loggedIn");
+
+    window.location.replace("login.html");
+
+});
+
+history.pushState(null,null,location.href);
+
+window.onpopstate=function(){
+
+    history.go(1);
+
+};
+
 document.addEventListener("click", function (e) {
 
     const btn = e.target.closest(".pdfBtn");
@@ -573,7 +693,7 @@ document.addEventListener("click", function (e) {
     const feedbackId = btn.dataset.id;
 
     window.open(
-        `${API_BASE_URL}/api/export/feedback/${feedbackId}`,
+        `http://localhost:5000/api/export/feedback/${feedbackId}`,
         "_blank"
     );
 
@@ -589,7 +709,7 @@ document.addEventListener("click", async function (e) {
     try {
 
         const response = await fetch(
-            `${API_BASE_URL}/api/feedback/${id}`
+            `http://localhost:5000/api/feedback/${id}`
         );
 
         const result = await response.json();

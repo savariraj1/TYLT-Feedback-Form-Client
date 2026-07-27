@@ -1,363 +1,620 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html> -->
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>TYLT Mobility Feedback</title>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>TYLT Admin Dashboard</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<!-- <link rel="stylesheet" href="style.css"> -->
-<link
-href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-rel="stylesheet">
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet"
+href="css/dashboard.css">
 
 </head>
 
 <body>
-<div class="container-fluid py-5">
 
-<div class="row justify-content-center">
+<!-- Sidebar -->
 
-<div class="col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7">
-<div id="feedbackContainer">
-    <div class="card shadow-lg">
-    <!-- 
-    <div class="container py-5">
+<div class="sidebar">
+
+<div class="logo">
+
+<h3><img src="./Image/logo.png" width="20px" height="25px" alt=""> TYLT</h3>
+
+</div>
+
+<ul>
+
+<li class="active" id="dashboardMenu">
+
+<i class="bi bi-speedometer2"></i>
+
+Dashboard
+
+</li>
+
+<li id="feedbackMenu">
+
+<i class="bi bi-chat-square-text"></i>
+
+Feedback
+
+</li>
+
+<li  id="logoutBtn">
+
+<i class="bi bi-box-arrow-right"></i>
+
+Logout
+
+</li>
+
+</ul>
+
+</div>
+
+<!-- Main Content -->
+
+<div class="main">
+
+<!-- Navbar -->
+<div id="dashboardSection">
+
+    <div class="topbar">
     
-    <div class="row justify-content-center">
+    <h2>
     
-    <div class="col-lg-8">
+    Dashboard
     
-    <div class="card shadow-lg"> -->
+    </h2>
     
-    <div class="card-header text-center bg-primary text-white">
+    <div class="admin">
     
-    <h2>🚗 TYLT Mobility</h2>
+    <i class="bi bi-bell"></i>
     
-    <p class="mb-0">
-    Customer Feedback Form
-    </p>
+    <img
+    src="Image/logo.png"
+    class="rounded-circle"
+    width="40"
+    height="40">
     
-    </div>
+    <span>
     
-    <div class="card-body">
+    Administrator
     
-    <h5 class="mb-4">
-    Trip Details
-    </h5>
-    
-    <div class="row">
-    
-    <div class="col-md-6 mb-3">
-    
-    <label>Booking ID</label>
-    
-    <input
-    id="bookingId"
-    type="text"
-    class="form-control"
-    readonly>
-    <!-- <input
-    type="text"
-    class="form-control"
-    value="TYLT000123"
-    readonly> -->
-    
-    </div>
-    
-    <div class="col-md-6 mb-3">
-    
-    <label>Customer Name</label>
-    
-    <input
-    id="customerName"
-    type="text"
-    class="form-control"
-    readonly>
-    <!-- <input
-    type="text"
-    class="form-control"
-    value="Raj Kumar"
-    readonly> -->
-    
-    </div>
-    
-    <div class="col-md-6 mb-3">
-    
-    <label>Company</label>
-    
-    <input
-    id="companyName"
-    type="text"
-    class="form-control"
-    readonly>
-    <!-- <input
-    type="text"
-    class="form-control"
-    value="ABC Technologies"
-    readonly> -->
-    
-    </div>
-    
-    <div class="col-md-6 mb-3">
-    
-    <label>Trip Date</label>
-    
-    <input
-    id="tripDate"
-    type="text"
-    class="form-control"
-    readonly>
-    <!-- <input
-    type="text"
-    class="form-control"
-    value="15-Jul-2026"
-    readonly> -->
-    
-    </div>
-    
-    <div class="col-md-6 mb-3">
-    
-    <label>Driver Name</label>
-    
-    <input
-    id="driverName"
-    type="text"
-    class="form-control"
-    readonly>
-    <!-- <input
-    type="text"
-    class="form-control"
-    value="Ravi Kumar"
-    readonly> -->
-    
-    </div>
-    
-    <div class="col-md-6 mb-3">
-    
-    <label>Vehicle Number</label>
-    
-    <input
-    id="vehicleNumber"
-    type="text"
-    class="form-control"
-    readonly>
-    <!-- <input
-    type="text"
-    class="form-control"
-    value="KA01AB1234"
-    readonly> -->
+    </span>
     
     </div>
     
     </div>
-    
-    <hr>
-    
-    <h5 class="mb-3">
-    Service Feedback
-    </h5>
-    
-    <form id="feedbackForm">
-    
-    <div class="mb-4">
-    
-    <label class="fw-bold">
-    
-    Overall Experience
-    
-    </label>
-    
-    <select id="overallRating" class="form-select">
-    <!-- <select class="form-select"> -->
-    
-    <option>⭐⭐⭐⭐⭐ Excellent</option>
-    <option>⭐⭐⭐⭐ Good</option>
-    <option>⭐⭐⭐ Average</option>
-    <option>⭐⭐ Fair</option>
-    <option>⭐ Poor</option>
-    
-    </select>
-    
+
+    <!-- Dashboard Filters -->
+    <div class="card mt-4 p-3 mb-3">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-10">
+
+                <div class="row g-2">
+
+                    <div class="col-lg-4">
+                        <input
+                            type="text"
+                            id="dashboardSearch"
+                            class="form-control"
+                            placeholder="Search Company / Driver / Customer">
+                    </div>
+
+                    <div class="col-lg-2">
+                        <input
+                            type="date"
+                            id="dashboardFromDate"
+                            class="form-control">
+                    </div>
+
+                    <div class="col-lg-2">
+                        <input
+                            type="date"
+                            id="dashboardToDate"
+                            class="form-control">
+                    </div>
+
+                    <div class="col-lg-2">
+                        <select
+                            id="dashboardRatingFilter"
+                            class="form-select">
+
+                            <option value="">All Ratings</option>
+                            <option value="5">⭐⭐⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="1">⭐</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2">
+                        <button
+                            id="dashboardRefreshBtn"
+                            class="btn btn-primary w-100">
+
+                            Refresh
+
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-2 text-end mt-3 mt-lg-0">
+
+                <button
+                    id="dashboardClearBtn"
+                    class="btn btn-secondary w-100">
+
+                    Clear Filters
+
+                </button>
+
+            </div>
+
+        </div>
+
     </div>
     
-    <div class="mb-4">
     
-    <label class="fw-bold">
+    <!-- KPI Cards -->
     
-    Driver Professionalism
+    <div class="row g-4">
     
-    </label>
-    <select id="driverRating" class="form-select">
-    <!-- <select class="form-select"> -->
+    <div class="col-lg-3 col-md-6">
     
-    <option>⭐⭐⭐⭐⭐ Excellent</option>
-    <option>⭐⭐⭐⭐ Good</option>
-    <option>⭐⭐⭐ Average</option>
-    <option>⭐⭐ Fair</option>
-    <option>⭐ Poor</option>
+    <div class="card card-box">
     
-    </select>
+    <h5>Total Feedback</h5>
     
-    </div>
+    <h2 id="totalFeedback">
     
-    <div class="mb-4">
+    0
     
-    <label class="fw-bold">
-    
-    Vehicle Cleanliness
-    
-    </label>
-    
-    <select id="cleanlinessRating" class="form-select">
-    <!-- <select class="form-select"> -->
-    
-    <option>⭐⭐⭐⭐⭐ Excellent</option>
-    <option>⭐⭐⭐⭐ Good</option>
-    <option>⭐⭐⭐ Average</option>
-    <option>⭐⭐ Fair</option>
-    <option>⭐ Poor</option>
-    
-    </select>
-    
-    </div>
-    
-    <div class="mb-4">
-    
-    <label class="fw-bold">
-    
-    Punctuality
-    
-    </label>
-    
-    <select id="punctualityRating" class="form-select">
-    <!-- <select class="form-select"> -->
-    
-    <option>⭐⭐⭐⭐⭐ Excellent</option>
-    <option>⭐⭐⭐⭐ Good</option>
-    <option>⭐⭐⭐ Average</option>
-    <option>⭐⭐ Fair</option>
-    <option>⭐ Poor</option>
-    
-    </select>
-    
-    </div>
-    
-    <div class="mb-4">
-    
-    <label class="fw-bold">
-    
-    Would you recommend TYLT Mobility?
-    
-    </label>
-    
-    <div class="form-check">
-    
-    <input class="form-check-input" type="radio" name="recommend" value="Yes">
-    
-    <label class="form-check-label">
-    
-    Yes
-    
-    </label>
-    
-    </div>
-    
-    <div class="form-check">
-    
-    <input class="form-check-input" type="radio" name="recommend" value="Maybe">
-    
-    <label class="form-check-label">
-    
-    Maybe
-    
-    </label>
-    
-    </div>
-    
-    <div class="form-check">
-    
-    <input class="form-check-input" type="radio" name="recommend" value="No">
-    
-    <label class="form-check-label">
-    
-    No
-    
-    </label>
+    </h2>
     
     </div>
     
     </div>
     
-    <div class="mb-4">
+    <div class="col-lg-3 col-md-6">
     
-    <label class="fw-bold">
+    <div class="card card-box">
     
-    Suggestions
+    <h5>Today's Feedback</h5>
     
-    </label>
+    <h2 id="todayFeedback">
     
-    <textarea
-    id="comments"
-    class="form-control"
-    rows="4"
-    placeholder="Share your feedback..."></textarea>
+    0
     
-    <!-- <textarea
-    class="form-control"
-    rows="4"
-    placeholder="Share your feedback..."></textarea> -->
+    </h2>
     
     </div>
     
-    <button
-    type="submit" class="btn btn-primary w-100">
+    </div>
     
-    Submit Feedback
+    <div class="col-lg-3 col-md-6">
     
-    </button>
+    <div class="card card-box">
     
-    </form>
+    <h5>Average Rating</h5>
+    
+    <h2 id="averageRating">
+    ⭐ 0.0
+    </h2>
+    
+    </div>
+    
+    </div>
+    
+    <div class="col-lg-3 col-md-6">
+    
+    <div class="card card-box">
+    
+    <h5>Recommendation</h5>
+    
+    <h2 id="recommendation">
+    0%
+    </h2>
+    
+    </div>
+    
+    </div>
+    
+    </div>
+    
+    <!-- Charts -->
+    
+    <div class="row mt-4">
+    
+        <div class="col-lg-6">
+    
+            <div class="card p-4">
+    
+                <h5>Company-wise Feedback</h5>
+    
+                <canvas id="companyChart"></canvas>
+    
+            </div>
+    
+        </div>
+    
+        <div class="col-lg-6">
+    
+            <div class="card p-4">
+    
+                <h5>Driver Performance</h5>
+    
+                <canvas id="driverChart"></canvas>
+    
+            </div>
+    
+        </div>
+    
+    </div>
+    <div class="row mt-4">
+    
+        <div class="col-lg-8">
+            <div class="card p-4">
+                <h5>Feedback Trend</h5>
+                <canvas id="feedbackChart" height="120"></canvas>
+            </div>
+        </div>
+    
+    <div class="col-lg-4">
+        <div class="card p-4">
+            <h5>Overall Ratings</h5>
+            <canvas id="ratingChart" height="120"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- </div>
+
+</div>
+
+</div> -->
+<div id="feedbackSection"  style="display:none;">
+
+    <div class="card mt-4 p-3">
+
+        <div class="row align-items-center">
+
+            <!-- Filters -->
+            <div class="col-lg-10">
+
+                <div class="row g-2">
+
+                    <div class="col-lg-4 col-md-12">
+                        <input
+                            type="text"
+                            id="searchInput"
+                            class="form-control"
+                            placeholder="Search Booking, Customer, Company, Driver">
+                    </div>
+
+                    <div class="col-lg-2 col-md-4">
+                        <input
+                            type="date"
+                            id="fromDate"
+                            class="form-control">
+                    </div>
+
+                    <div class="col-lg-2 col-md-4">
+                        <input
+                            type="date"
+                            id="toDate"
+                            class="form-control">
+                    </div>
+
+                    <div class="col-lg-2 col-md-4">
+                        <select
+                            id="ratingFilter"
+                            class="form-select">
+
+                            <option value="">All Ratings</option>
+                            <option value="5">⭐⭐⭐⭐⭐</option>
+                            <option value="4">⭐⭐⭐⭐</option>
+                            <option value="3">⭐⭐⭐</option>
+                            <option value="2">⭐⭐</option>
+                            <option value="1">⭐</option>
+
+                        </select>
+                    </div>
+
+                    <div class="col-lg-2 col-md-4">
+                        <button
+                            id="refreshBtn"
+                            class="btn btn-primary w-100">
+
+                            Refresh
+
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Create Feedback Button -->
+            <div class="col-lg-2 text-lg-end text-start mt-3 mt-lg-0">
+
+                <button
+                    class="btn btn-success w-100"
+                    data-bs-toggle="modal"
+                    data-bs-target="#createLinkModal">
+
+                    Create Feedback Link
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+    
+    <!-- Recent Feedback -->
+    
+    <div class="card mt-4">
+    
+    <div class="card-header">
+    
+    Recent Feedback
+    
+    </div>
+    <div class="d-flex justify-content-end gap-2 mb-3">
+    
+        <button
+            id="pdfBtn"
+            class="btn btn-danger">
+    
+            Export PDF
+    
+        </button>
+    
+        <button
+            id="excelBtn"
+            class="btn btn-success">
+    
+            Export Excel
+    
+        </button>
+    
+    </div>
+    
+    <div class="table-responsive">
+    
+        <table class="table table-hover">
+    
+            <thead>
+    
+                <tr>
+    
+                    <th>Booking</th>
+    
+                    <th>Customer</th>
+    
+                    <th>Company</th>
+    
+                    <th>Driver</th>
+    
+                    <th>Rating</th>
+    
+                    <th>Actions</th>
+    
+                    <th>Primary Action</th>
+
+                    <!-- <th>Status</th> -->
+    
+                </tr>
+    
+            </thead>
+    
+            <tbody id="feedbackTable">
+            
+            </tbody>
+    
+        </table>
     
     </div>
     
     </div>
 </div>
 
-<div
-    id="thankYouMessage"
-    class="text-center mt-5"
-    style="display:none;">
+</div>
 
-    <div class="card shadow p-5">
 
-        <h1 class="text-success">
-            ✅ Thank You!
-        </h1>
+<!-- Feedback Details Modal -->
 
-        <h4 class="mt-3">
-            Your feedback has been submitted successfully.
-        </h4>
+<div class="modal fade" id="viewModal" tabindex="-1">
 
-        <p class="text-muted mt-2">
-            Thank you for choosing TYLT Mobility.
-        </p>
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">Feedback Details</h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div id="feedbackDetails"></div>
+
+            </div>
+
+        </div>
 
     </div>
 
 </div>
-</div>
+
+<!-- Create Feedback Link Modal -->
+
+<div class="modal fade" id="createLinkModal" tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h4 id="linkModalTitle">Create Feedback Link</h4>
+
+                <!-- <h4>Create Feedback Link</h4> -->
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <input
+                    type="hidden"
+                    id="feedbackId">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Booking ID
+                        </label>
+
+                        <input
+                            type="text"
+                            id="linkBookingId"
+                            class="form-control"
+                            placeholder="TYLT001">
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Customer Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="linkCustomerName"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Company
+                        </label>
+
+                        <input
+                            type="text"
+                            id="linkCompany"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Trip Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="linkTripDate"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Driver Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="linkDriver"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Vehicle Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="linkVehicle"
+                            class="form-control">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    id="generateLinkBtn"
+                    class="btn btn-primary">
+
+                    Generate Feedback Link
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
-</div>
+<script src="js/dashboard.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<script src="/config.js"></script>
-<script src="./JS/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 
 </body>
+
 </html>
+

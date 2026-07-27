@@ -10,6 +10,8 @@ services:
       - "3000:3000"
     environment:
       - PORT=3000
+      - PROD=false
+      - API_BASE_URL=http://localhost:5000
       - PUBLIC_BASE_URL=http://localhost:3000
     volumes:
       - ./:/app
@@ -26,6 +28,8 @@ services:
       - "3000:3000"
     environment:
       - PORT=3000
-      - PUBLIC_BASE_URL=http://localhost:3000
+      - PROD=true
+      - PROD_API_BASE_URL=https://tylt-feedback-form-server-production.up.railway.app
+      - PROD_PUBLIC_BASE_URL=https://tylt-feedback-form-client.vercel.app
     command: npm start
     profiles: ["prod"]
