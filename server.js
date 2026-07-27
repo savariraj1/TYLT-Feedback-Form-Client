@@ -77,7 +77,7 @@ function getFilePath(requestPath) {
     return resolvedPath;
 }
 
-const server = http.createServer((request, response) => {
+function requestHandler(request, response) {
     const requestPath = request.url || "/";
 
     if (requestPath === "/config.js") {
@@ -114,10 +114,16 @@ const server = http.createServer((request, response) => {
 
         serveFile(response, filePath);
     });
-});
+}
 
-server.listen(PORT, HOST, () => {
-    console.log(`Frontend running on ${PUBLIC_BASE_URL}`);
-    console.log(`Backend API configured as ${API_BASE_URL}`);
-    console.log(`Production mode: ${isProd}`);
-});
+const server = http.createServer(requestHandler);
+
+if (require.main === module) {
+    server.listen(PORT, HOST, () => {
+        console.log(`Frontend running on ${PUBLIC_BASE_URL}`);
+        console.log(`Backend API configured as ${API_BASE_URL}`);
+        console.log(`Production mode: ${isProd}`);
+    });
+}
+
+module.exports = requestHandler;
