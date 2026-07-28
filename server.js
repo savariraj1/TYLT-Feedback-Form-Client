@@ -1,6 +1,8 @@
 const http = require("http");
+const https = require("https");
 const fs = require("fs");
 const path = require("path");
+const { URL } = require("url");
 require("dotenv").config();
 
 const PORT = Number(process.env.PORT) || 3000;
@@ -77,13 +79,57 @@ function getFilePath(requestPath) {
     return resolvedPath;
 }
 
+function proxyApiRequest(clientRequest, clientResponse) {
+    const targetUrl = new URL(clientRequest.url, API_BASE_URL);
+    const transport = targetUrl.protocol === "https:" ? https : http;
+    const headers = { ...clientRequest.headers };
+
+    delete headers.host;
+
+    const proxyRequest = transport.request(
+        {
+            protocol: targetUrl.protocol,
+            hostname: targetUrl.hostname,
+            port: targetUrl.port || undefined,
+            path: `${targetUrl.pathname}${targetUrl.search}`,
+            method: clientRequest.method,
+            headers
+        },
+        (proxyResponse) => {
+            clientResponse.writeHead(
+                proxyResponse.statusCode || 502,
+                proxyResponse.statusMessage || "",
+                proxyResponse.headers
+            );
+            proxyResponse.pipe(clientResponse);
+        }
+    );
+
+    proxyRequest.on("error", (error) => {
+        const body = JSON.stringify({
+            success: false,
+            message: "Unable to reach backend API.",
+            error: error.message
+        });
+
+        send(clientResponse, 502, body, "application/json; charset=utf-8");
+    });
+
+    clientRequest.pipe(proxyRequest);
+}
+
 function requestHandler(request, response) {
     const requestPath = request.url || "/";
+
+    if (requestPath.startsWith("/api/")) {
+        proxyApiRequest(request, response);
+        return;
+    }
 
     if (requestPath === "/config.js") {
         const body = `window.APP_CONFIG = ${JSON.stringify(
             {
-                API_BASE_URL,
+                API_BASE_URL: "",
                 APP_BASE_URL: PUBLIC_BASE_URL
             },
             null,
@@ -101,17 +147,8 @@ function requestHandler(request, response) {
         return;
     }
 
-    // ===== DEBUG =====
-    console.log("rootDir:", rootDir);
-    console.log("requestPath:", requestPath);
-    console.log("filePath:", filePath);
-    console.log("exists:", fs.existsSync(filePath));
-    console.log("Files:", fs.readdirSync(rootDir));
-    // =================
-
     fs.stat(filePath, (error, stats) => {
         if (error) {
-            console.log("fs.stat error:", error);
             send(response, 404, "File not found", "text/plain; charset=utf-8");
             return;
         }

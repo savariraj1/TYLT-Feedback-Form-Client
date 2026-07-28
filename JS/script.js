@@ -1,5 +1,5 @@
 const APP_CONFIG = window.APP_CONFIG || {};
-const API_BASE_URL = APP_CONFIG.API_BASE_URL || "http://localhost:5000";
+const API_BASE_URL = APP_CONFIG.API_BASE_URL || "";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -107,7 +107,6 @@ async function loadTripDetails() {
     const response = await fetch(
         `${API_BASE_URL}/api/feedback/${feedbackId}`
     );
-
     const result = await response.json();
 
     if (!result.success) {

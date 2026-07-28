@@ -5,7 +5,7 @@ if(sessionStorage.getItem("loggedIn") !== "true"){
 }
 
 const APP_CONFIG = window.APP_CONFIG || {};
-const API_BASE_URL = APP_CONFIG.API_BASE_URL || "http://localhost:5000";
+const API_BASE_URL = APP_CONFIG.API_BASE_URL || "";
 const APP_BASE_URL = APP_CONFIG.APP_BASE_URL || window.location.origin;
 
 let feedbackChart = null;
@@ -400,53 +400,82 @@ if (generateBtn) {
 
     let response;
 
-    if (feedbackId) {
+    try {
 
-        response = await fetch(
+        if (feedbackId) {
 
-            `${API_BASE_URL}/api/feedback/edit-detail/${feedbackId}`,
+            response = await fetch(
 
-            {
+                `${API_BASE_URL}/api/feedback/edit-detail/${feedbackId}`,
 
-                method: "PUT",
+                {
 
-                headers: {
+                    method: "PUT",
 
-                    "Content-Type":"application/json"
+                    headers: {
 
-                },
+                        "Content-Type":"application/json"
 
-                body: JSON.stringify(data)
+                    },
 
-            }
+                    body: JSON.stringify(data)
 
-        );
+                }
+
+            );
+
+        }
+
+        else {
+
+            response = await fetch(
+
+                `${API_BASE_URL}/api/generate-link`,
+
+                {
+
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+
+                    body:JSON.stringify(data)
+
+                }
+
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error("Link request failed:", error);
+        alert("Unable to connect to the server. Please try again.");
+        return;
 
     }
 
-    else {
+    let result;
 
-        response = await fetch(
+    try {
 
-            `${API_BASE_URL}/api/generate-link`,
+        result = await response.json();
 
-            {
+    } catch (error) {
 
-                method:"POST",
-
-                headers:{
-                    "Content-Type":"application/json"
-                },
-
-                body:JSON.stringify(data)
-
-            }
-
-        );
+        console.error("Invalid API response:", error);
+        alert("The server returned an invalid response.");
+        return;
 
     }
 
-    const result = await response.json();
+    if (!response.ok) {
+
+        alert(result.message || "Request failed.");
+        return;
+
+    }
 
     if(result.success){
 
