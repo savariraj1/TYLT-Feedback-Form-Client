@@ -135,7 +135,7 @@ function requestHandler(request, response) {
     if (requestPath === "/config.js") {
         const body = `window.APP_CONFIG = ${JSON.stringify(
             {
-                API_BASE_URL: "",
+                API_BASE_URL,
                 APP_BASE_URL: PUBLIC_BASE_URL
             },
             null,
