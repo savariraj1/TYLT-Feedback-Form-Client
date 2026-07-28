@@ -7,19 +7,25 @@ require("dotenv").config();
 
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = process.env.HOST || "0.0.0.0";
-const isProd = ["true", "1", "yes"].includes(
+const explicitProd = ["true", "1", "yes"].includes(
     String(process.env.PROD || "")
         .trim()
         .toLowerCase()
 );
+const isProd =
+    explicitProd ||
+    process.env.NODE_ENV === "production" ||
+    ["1", "true"].includes(String(process.env.VERCEL || "").toLowerCase());
+const DEV_API_BASE_URL = (process.env.API_BASE_URL || "").trim();
+const PROD_API_BASE_URL = (process.env.PROD_API_BASE_URL || "").trim();
+const DEV_PUBLIC_BASE_URL = (process.env.PUBLIC_BASE_URL || "").trim();
+const PROD_PUBLIC_BASE_URL = (process.env.PROD_PUBLIC_BASE_URL || "").trim();
 const API_BASE_URL = isProd
-    ? process.env.PROD_API_BASE_URL || process.env.API_BASE_URL || "http://localhost:5000"
-    : process.env.API_BASE_URL || "http://localhost:5000";
+    ? PROD_API_BASE_URL || DEV_API_BASE_URL || "http://localhost:5000"
+    : DEV_API_BASE_URL || PROD_API_BASE_URL || "http://localhost:5000";
 const PUBLIC_BASE_URL = isProd
-    ? process.env.PROD_PUBLIC_BASE_URL ||
-      process.env.PUBLIC_BASE_URL ||
-      `http://localhost:${PORT}`
-    : process.env.PUBLIC_BASE_URL || `http://localhost:${PORT}`;
+    ? PROD_PUBLIC_BASE_URL || DEV_PUBLIC_BASE_URL || `http://localhost:${PORT}`
+    : DEV_PUBLIC_BASE_URL || `http://localhost:${PORT}`;
 
 const rootDir = __dirname;
 
